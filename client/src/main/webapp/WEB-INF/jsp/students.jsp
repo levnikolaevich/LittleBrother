@@ -65,6 +65,7 @@
     <tbody>
     <%
         int count = 0;
+
         for (StudentDTO student : stdlist) {
             count++;
     %>

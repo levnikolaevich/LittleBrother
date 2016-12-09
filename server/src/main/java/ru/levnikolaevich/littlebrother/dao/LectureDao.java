@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -75,7 +76,7 @@ public class LectureDao implements ILectureDao {
     public List<LectureDTO> getLectureAll() {
         createEntityManager();
 
-        List<LectureDTO> listDTO = null;
+        List<LectureDTO> listDTO =  new ArrayList<>();
 
         entityManager.getTransaction().begin();
         Query query = entityManager.createQuery("SELECT lec FROM Lecture lec", Lecture.class);

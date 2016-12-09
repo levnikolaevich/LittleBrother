@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -29,6 +30,8 @@ public class StudentDao implements IStudentDao {
 
     @Override
     public void addStudent(StudentDTO studentDto) {
+        createEntityManager();
+        
         MapperFacade mapper = mapperFactory.getMapperFacade();
         Student student = mapper.map(studentDto, Student.class);
         entityManager.persist(student);
@@ -36,6 +39,7 @@ public class StudentDao implements IStudentDao {
 
     @Override
     public void udpateStudent(StudentDTO studentDto) {
+        createEntityManager();
         MapperFacade mapper = mapperFactory.getMapperFacade();
         Student student = mapper.map(studentDto, Student.class);
         entityManager.merge(student);
@@ -43,6 +47,7 @@ public class StudentDao implements IStudentDao {
 
     @Override
     public void removeStudent(int id) {
+        createEntityManager();
         Student student = entityManager.find(Student.class, new Integer(id));
         if (student != null) {
             entityManager.remove(student);
@@ -51,6 +56,7 @@ public class StudentDao implements IStudentDao {
 
     @Override
     public StudentDTO getStudentById(int id) {
+        createEntityManager();
         Student studentEntity = entityManager.find(Student.class, new Integer(id));
         MapperFacade mapper = mapperFactory.getMapperFacade();
         StudentDTO student = mapper.map(studentEntity, StudentDTO.class);
@@ -59,20 +65,19 @@ public class StudentDao implements IStudentDao {
 
     @Override
     public List<StudentDTO> getStudentAll() {
+        createEntityManager();
+        List<StudentDTO> studentDTO = new ArrayList<>();
+
         entityManager.getTransaction().begin();
         Query query = entityManager.createQuery("SELECT std FROM Student std", Student.class);
         List<Student> list = query.getResultList();
         entityManager.getTransaction().commit();
         entityManager.close();
 
-
-//        TypedQuery<Student> namedQuery = entityManager.createNamedQuery("Students.getAll", Student.class);
-//        List<Student> list = namedQuery.getResultList();
-
-
-        MapperFacade mapper = mapperFactory.getMapperFacade();
-        List<StudentDTO> studentDTO = mapper.mapAsList(list, StudentDTO.class);
-
+        if(list.size() > 0) {
+            MapperFacade mapper = mapperFactory.getMapperFacade();
+            studentDTO = mapper.mapAsList(list, StudentDTO.class);
+        }
         return studentDTO;
     }
 
