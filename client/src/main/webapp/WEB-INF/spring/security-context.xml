@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<b:beans xmlns="http://www.springframework.org/schema/security"
+         xmlns:b="http://www.springframework.org/schema/beans"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="
+                http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd
+				http://www.springframework.org/schema/security
+				http://www.springframework.org/schema/security/spring-security.xsd">
+
+
+    <http use-expressions="true">
+        <intercept-url pattern="/addLecture" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/addStudent" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/login" access="isAnonymous()"/>
+        <!--<intercept-url pattern="/*" access="isAuthenticated()"/>-->
+
+        <access-denied-handler error-page="/403" />
+        <form-login
+                login-page="/login"
+                login-processing-url="/j_spring_security_check"
+                default-target-url="/home"
+                authentication-failure-url="/login?error"
+                username-parameter="username"
+                password-parameter="password"/>
+        <logout logout-url="/j_spring_security_logout" logout-success-url="/login?logout" />
+        <csrf disabled="true" />
+    </http>
+
+    <authentication-manager>
+        <authentication-provider>
+            <user-service>
+                <user name="admin" password="1" authorities="ROLE_ADMIN"/>
+                <user name="user" password="1" authorities="ROLE_USER"/>
+            </user-service>
+           <!--<jdbc-user-service data-source-ref="bigbrother"/>-->
+        </authentication-provider>
+    </authentication-manager>
+
+    <!--<b:bean id="bigbrother" class="">-->
+
+    <!--</b:bean>-->
+</b:beans>

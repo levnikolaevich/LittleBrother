@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:annotation-config/>
+
+    <bean id="lectureService" class="ru.levnikolaevich.littlebrother.service.LectureService">
+        <property name="lectureDao" ref="lectureDao"/>
+    </bean>
+
+    <bean id="lectureDao" class="ru.levnikolaevich.littlebrother.dao.LectureDao">
+
+    </bean>
+
+    <bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+        <!-- does not necessarily have to be the same name as the bean to be exported -->
+        <property name="serviceName" value="LectureService"/>
+        <property name="service" ref="lectureService"/>
+        <property name="serviceInterface" value="ru.levnikolaevich.littlebrother.service.ILectureService"/>
+        <!-- defaults to 1099 -->
+        <property name="registryPort" value="1199"/>
+    </bean>
+
+    <bean id="studentService" class="ru.levnikolaevich.littlebrother.service.StudentService">
+        <property name="studentDao" ref="studentDao"/>
+    </bean>
+
+    <bean id="studentDao" class="ru.levnikolaevich.littlebrother.dao.StudentDao">
+
+    </bean>
+
+    <bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+        <!-- does not necessarily have to be the same name as the bean to be exported -->
+        <property name="serviceName" value="StudentService"/>
+        <property name="service" ref="studentService"/>
+        <property name="serviceInterface" value="ru.levnikolaevich.littlebrother.service.IStudentService"/>
+        <!-- defaults to 1099 -->
+        <property name="registryPort" value="1199"/>
+    </bean>
+
+</beans>
