@@ -10,7 +10,7 @@ import java.util.Calendar;
 @Table(name="lecture")
 public class Lecture {
     @Id
-    private long id;
+    private Integer id;
     private Calendar dateStart;
     private String theme;
 
@@ -20,8 +20,13 @@ public class Lecture {
 //    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "lectures")
 //    private List<Student> students;
 
-    public long getId() {
+
+    public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public long getVersion() {

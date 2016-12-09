@@ -5,6 +5,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class ActionServer {
 
     public static void main(String[] args) {
-        new ClassPathXmlApplicationContext("xml-beans.xml");
+//        new ClassPathXmlApplicationContext(new String[]{"xml-beans.xml", "META-INF/persistence.xml"});
+
+        new ClassPathXmlApplicationContext(new String[]{"xml-beans.xml"});
     }
 }

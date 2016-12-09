@@ -24,15 +24,14 @@ public class Student {
 //            inverseJoinColumns=@JoinColumn(name="lecture_id", referencedColumnName="id"))
 //    private List<Lecture> lectures;
 
+
     public Integer getId() {
         return id;
     }
 
-
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
-
 
     public String getFio() {
         return fio;

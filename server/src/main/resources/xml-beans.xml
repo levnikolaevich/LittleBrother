@@ -2,15 +2,20 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
+    <jpa:repositories base-package="ru.levnikolaevich.littlebrother.dao" entity-manager-factory-ref="entityManagerFactory"/>
 
-    <bean id="lectureService" class="ru.levnikolaevich.littlebrother.service.LectureService">
-        <property name="lectureDao" ref="lectureDao"/>
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="packagesToScan" value="ru.levnikolaevich.littlebrother.model" />
+        <property name = "persistenceUnitName" value = "brother_student" />
+    </bean>
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
 
-    <bean id="lectureDao" class="ru.levnikolaevich.littlebrother.dao.LectureDao">
-
+    <bean id="lectureService" class="ru.levnikolaevich.littlebrother.service.LectureService">
     </bean>
 
     <bean class="org.springframework.remoting.rmi.RmiServiceExporter">
@@ -23,10 +28,6 @@
     </bean>
 
     <bean id="studentService" class="ru.levnikolaevich.littlebrother.service.StudentService">
-        <property name="studentDao" ref="studentDao"/>
-    </bean>
-
-    <bean id="studentDao" class="ru.levnikolaevich.littlebrother.dao.StudentDao">
 
     </bean>
 
@@ -38,5 +39,7 @@
         <!-- defaults to 1099 -->
         <property name="registryPort" value="1200"/>
     </bean>
+    <context:annotation-config/>
+
 
 </beans>
